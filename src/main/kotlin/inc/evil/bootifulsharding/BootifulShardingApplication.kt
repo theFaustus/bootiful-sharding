@@ -20,7 +20,7 @@ class BootifulShardingApplication {
     fun init(reviewRepository: ReviewRepository) = CommandLineRunner {
         run {
             (0..100).forEach { i ->
-                reviewRepository.save(Review(text = "Review number $i", author = "Mike Scott")).block()
+                reviewRepository.save(Review(text = "Review number $i", author = "Mike Scott", courseId = i))
             }
         }
     }
