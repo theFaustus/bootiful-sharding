@@ -1,21 +1,16 @@
-
-
 spring:
-  datasource:
-    username: postgres
-    password: 123456
-    url: jdbc:postgresql://localhost:5436/reviews-db
-    tomcat:
-      validation-query: "SELECT 1"
-      test-while-idle: true
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+#        default_schema: reviews
     open-in-view: false
     #    show-sql: true
     #    properties:
     #      hibernate:
     #        format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   application:
     name: reviews-service
   profiles:
@@ -23,6 +18,9 @@ spring:
   graphql:
     graphiql:
       enabled: true
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding.yaml
 
 management:
   endpoints:
@@ -48,3 +46,4 @@ logging:
     io.r2dbc.postgresql.PARAM: DEBUG # for parameters
 server:
   port: 8082
+
