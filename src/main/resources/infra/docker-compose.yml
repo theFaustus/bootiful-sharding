@@ -1,36 +1,44 @@
-version: '3'
+version: '2'
 services:
-  reviews-operational-ds1:
-    image: postgres:13.3
-    container_name: reviews-operational-ds1
-    command:
-      - "postgres"
-      - "-c"
-      - "wal_level=logical"
-    environment:
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: reviews-db
+  postgresql-master:
+    image: 'bitnami/postgresql:latest'
     ports:
-      - "5435:5432"
-  reviews-operational-ds2:
-    image: postgres:13.3
-    container_name: reviews-operational-ds2
-    command:
-      - "postgres"
-      - "-c"
-      - "wal_level=logical"
+      - '5432:5432'
+    volumes:
+      - 'postgresql_master_data:/bitnami/postgresql'
     environment:
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: reviews-db
+      - POSTGRESQL_REPLICATION_MODE=master
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_DATABASE=reviews-db
+  postgresql-slave:
+    image: 'bitnami/postgresql:latest'
     ports:
-      - "5436:5432"
-  zookeeper:
-    image: zookeeper
-    restart: always
-    hostname: zoo1
-    ports:
-      - "2181:2181"
+      - '5432'
+    depends_on:
+      - postgresql-master
     environment:
-      ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=zoo1:2888:3888;2181
+      - POSTGRESQL_REPLICATION_MODE=slave
+      - POSTGRESQL_REPLICATION_USER=repl_user
+      - POSTGRESQL_REPLICATION_PASSWORD=repl_password
+      - POSTGRESQL_MASTER_HOST=postgresql-master
+      - POSTGRESQL_USERNAME=my_user
+      - POSTGRESQL_PASSWORD=my_password
+      - POSTGRESQL_MASTER_PORT_NUMBER=5432
+
+volumes:
+  postgresql_master_data:
+
+    driver: local
+#  zookeeper:
+#    image: zookeeper
+#    restart: always
+#    hostname: zoo1
+#    ports:
+#      - "2181:2181"
+#    environment:
+#      ZOO_MY_ID: 1
+#      ZOO_SERVERS: server.1=zoo1:2888:3888;2181
 
