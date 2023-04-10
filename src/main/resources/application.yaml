@@ -5,7 +5,7 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
     #        default_schema: reviews
     open-in-view: false
     #    show-sql: true

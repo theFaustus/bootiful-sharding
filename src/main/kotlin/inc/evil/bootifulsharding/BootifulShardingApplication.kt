@@ -27,9 +27,9 @@ class BootifulShardingApplication
     @Bean
     fun init(reviewService: ReviewService, reviewRepository: ReviewRepository) = CommandLineRunner {
         run {
-//            (0..1000).forEach { i ->
-//                reviewService.save(Review(text = "Review number $i", author = "Mike Scott", courseId = i))
-//            }
+            (0..1000).forEach { i ->
+                reviewService.save(Review(text = "Review number $i", author = "Mike Scott", courseId = i))
+            }
             (1..10).forEach { i ->
                 reviewService.findById(i)
                 reviewRepository.findAllByAuthor("Mike $i")
