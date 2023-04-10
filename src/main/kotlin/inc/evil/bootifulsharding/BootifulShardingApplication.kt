@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.scheduling.annotation.EnableScheduling
 import java.time.LocalDate
 
@@ -24,14 +25,13 @@ class BootifulShardingApplication
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
     @Bean
-    fun init(reviewRepository: ReviewRepository) = CommandLineRunner {
+    fun init(reviewService: ReviewService) = CommandLineRunner {
         run {
 //            (0..1000).forEach { i ->
 //                reviewService.save(Review(text = "Review number $i", author = "Mike Scott", courseId = i))
 //            }
-            (0..10).forEach { i ->
-                reviewRepository.findAllByAuthor("Mike Scott").also { log.info(it.toString()) }
-                reviewRepository.findById(i).also { log.info(it.toString()) }
+            (1..100).forEach { i ->
+                reviewService.findById(i).also { log.info(it.toString()) }
             }
 
         }

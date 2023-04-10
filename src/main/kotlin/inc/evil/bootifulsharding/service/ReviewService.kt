@@ -6,9 +6,9 @@ import inc.evil.bootifulsharding.repo.ReviewRepository
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 import java.time.LocalDateTime
-import javax.transaction.Transactional
 
 @Service
 @Transactional
@@ -17,11 +17,11 @@ class ReviewService(val reviewRepository: ReviewRepository) {
     companion object {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
-
+    @Transactional(readOnly = true)
     fun findAll(): List<Review> {
         return reviewRepository.findAll()
     }
-
+    @Transactional(readOnly = true)
     fun findById(id: Int): Review {
         return reviewRepository.findById(id).orElseThrow { NotFoundException(Review::class, "id", id.toString()) }
     }
@@ -31,7 +31,7 @@ class ReviewService(val reviewRepository: ReviewRepository) {
     }
 
     fun deleteById(id: Int) = reviewRepository.deleteById(id)
-
+    @Transactional(readOnly = true)
     fun findAllByCreatedAt(date: LocalDate): List<Review> {
         return reviewRepository.findAllByCreatedAt(date)
     }

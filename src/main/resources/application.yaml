@@ -3,7 +3,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
-#        default_schema: reviews
+    #        default_schema: reviews
     open-in-view: false
     #    show-sql: true
     #    properties:
@@ -71,15 +71,14 @@ spring:
 
       readwrite-splitting:
         data-sources:
-          readwrite_ds:
-            staticStrategy:
-              writeDataSourceName: master
-              readDataSourceNames:
-                - slave0
-                - slave1
-            loadBalancerName: robin
-        loadBalancers:
-          robin:
+          random:
+            type: Static
+            load-balancer-name: round_robin
+            props:
+              write-data-source-name: master
+              read-data-source-names: slave0,slave1
+        load-balancers:
+          round_robin:
             type: ROUND_ROBIN
 
     props:
