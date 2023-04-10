@@ -2,32 +2,40 @@ dataSources:
   master:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: org.postgresql.Driver
-    jdbcUrl: jdbc:postgresql://localhost:5436/reviews-db
-    username: postgres
-    password: 123456
-  slave:
+    jdbcUrl: jdbc:postgresql://localhost:5432/reviews-db
+    username: my_user
+    password: my_password
+
+  slave0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: org.postgresql.Driver
-    jdbcUrl: jdbc:postgresql://localhost:5435/reviews-db
-    username: postgres
-    password: 123456
+    jdbcUrl: jdbc:postgresql://localhost:64111/reviews-db
+    username: my_user
+    password: my_password
 
-#mode:
-#  type: Standalone
-#  repository:
-#    type: JDBC
+  slave1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: org.postgresql.Driver
+    jdbcUrl: jdbc:postgresql://localhost:64110/reviews-db
+    username: my_user
+    password: my_password
 
 mode:
-  type: Cluster
+  type: Standalone
   repository:
-    type: ZooKeeper
-    props:
-      namespace: governance_ds
-      server-lists: localhost:2181
-      retryIntervalMilliseconds: 500
-      timeToLiveSeconds: 60
-      maxRetries: 3
-      operationTimeoutMilliseconds: 500
+    type: JDBC
+
+#mode:
+#  type: Cluster
+#  repository:
+#    type: ZooKeeper
+#    props:
+#      namespace: governance_ds
+#      server-lists: localhost:2181
+#      retryIntervalMilliseconds: 500
+#      timeToLiveSeconds: 60
+#      maxRetries: 3
+#      operationTimeoutMilliseconds: 500
 
 rules:
   - !SHARDING
@@ -60,7 +68,8 @@ rules:
         staticStrategy:
           writeDataSourceName: master
           readDataSourceNames:
-            - slave
+            - slave0
+            - slave1
         loadBalancerName: readwrite-load-balancer
     loadBalancers:
       readwrite-load-balancer:

@@ -1,4 +1,7 @@
 spring:
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding.yaml
   jpa:
     properties:
       hibernate:
@@ -10,81 +13,11 @@ spring:
     #      hibernate:
     #        format_sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   application:
     name: reviews-service
   profiles:
     active: default
-
-  shardingsphere:
-    datasource:
-      names: master,slave0,slave1
-
-      master:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: org.postgresql.Driver
-        jdbc-url: jdbc:postgresql://localhost:5432/reviews-db
-        username: my_user
-        password: my_password
-        auto-commit: false
-
-      slave0:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: org.postgresql.Driver
-        jdbc-url: jdbc:postgresql://localhost:64111/reviews-db
-        username: my_user
-        password: my_password
-        auto-commit: false
-
-      slave1:
-        type: com.zaxxer.hikari.HikariDataSource
-        driver-class-name: org.postgresql.Driver
-        jdbc-url: jdbc:postgresql://localhost:64110/reviews-db
-        username: my_user
-        password: my_password
-        auto-commit: false
-
-    rules:
-      sharding:
-        tables:
-          reviews:
-            actual-data-nodes: master.reviews_$->{0..1}
-            table-strategy:
-              standard:
-                sharding-column: course_id
-                sharding-algorithm-name: inline
-            key-generate-strategy:
-              column: course_id
-              key-generator-name: snowflake
-        sharding-algorithms:
-          inline:
-            type: INLINE
-            props:
-              algorithm-expression: reviews_$->{course_id % 2}
-              allow-range-query-with-inline-sharding: true
-        key-generators:
-          snowflake:
-            type: SNOWFLAKE
-            props:
-              max-vibration-offset: 1
-              max-tolerate-time-difference-milliseconds: 10
-
-      readwrite-splitting:
-        data-sources:
-          random:
-            type: Static
-            load-balancer-name: round_robin
-            props:
-              write-data-source-name: master
-              read-data-source-names: slave0,slave1
-        load-balancers:
-          round_robin:
-            type: ROUND_ROBIN
-
-    props:
-      proxy-hint-enabled: true
-      sql-show: true
-
 
 management:
   endpoints:
