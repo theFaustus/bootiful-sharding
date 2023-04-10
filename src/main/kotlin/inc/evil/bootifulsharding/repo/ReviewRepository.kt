@@ -14,5 +14,5 @@ interface ReviewRepository : JpaRepository<Review, Int> {
     @Query(nativeQuery = true, value = "select * from reviews r where r.author = :author")
     fun findAllByAuthor(author: String): List<Review>
     fun findAllByCreatedAtBetween(startDateTime: LocalDateTime, endDateTime: LocalDateTime): List<Review>
-
+    fun findAllByCourseId(courseId: Int): List<Review>
 }

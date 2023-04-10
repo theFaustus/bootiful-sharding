@@ -25,13 +25,16 @@ class BootifulShardingApplication
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
     @Bean
-    fun init(reviewService: ReviewService) = CommandLineRunner {
+    fun init(reviewService: ReviewService, reviewRepository: ReviewRepository) = CommandLineRunner {
         run {
 //            (0..1000).forEach { i ->
 //                reviewService.save(Review(text = "Review number $i", author = "Mike Scott", courseId = i))
 //            }
-            (1..100).forEach { i ->
-                reviewService.findById(i).also { log.info(it.toString()) }
+            (1..10).forEach { i ->
+                reviewService.findById(i)
+                reviewRepository.findAllByAuthor("Mike $i")
+                reviewRepository.findAllByCourseId(i)
+                reviewRepository.findAllById(listOf(1, 1000))
             }
 
         }

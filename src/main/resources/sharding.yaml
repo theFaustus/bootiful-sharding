@@ -20,22 +20,22 @@ dataSources:
     username: my_user
     password: my_password
 
-mode:
-  type: Standalone
-  repository:
-    type: JDBC
-
 #mode:
-#  type: Cluster
+#  type: Standalone
 #  repository:
-#    type: ZooKeeper
-#    props:
-#      namespace: governance_ds
-#      server-lists: localhost:2181
-#      retryIntervalMilliseconds: 500
-#      timeToLiveSeconds: 60
-#      maxRetries: 3
-#      operationTimeoutMilliseconds: 500
+#    type: JDBC
+
+mode:
+  type: Cluster
+  repository:
+    type: ZooKeeper
+    props:
+      namespace: governance_ds
+      server-lists: localhost:2181
+      retryIntervalMilliseconds: 500
+      timeToLiveSeconds: 60
+      maxRetries: 3
+      operationTimeoutMilliseconds: 500
 
 rules:
   - !SHARDING
