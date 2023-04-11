@@ -15,7 +15,7 @@ dataSources:
   slave0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:52471/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
+    jdbcUrl: jdbc:mysql://localhost:64647/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
     username: my_user
     password: my_password
     connectionTimeoutMilliseconds: 30000
@@ -27,7 +27,7 @@ dataSources:
   slave1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:52472/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
+    jdbcUrl: jdbc:mysql://localhost:64648/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
     username: my_user
     password: my_password
     connectionTimeoutMilliseconds: 30000
@@ -57,7 +57,7 @@ rules:
   - !SHARDING
     tables:
       reviews:
-        actualDataNodes: master.reviews_$->{0..1}
+        actualDataNodes: readwrite_ds.reviews_$->{0..1}
         tableStrategy:
           standard:
             shardingColumn: course_id
