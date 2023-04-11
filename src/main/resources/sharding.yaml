@@ -15,7 +15,7 @@ dataSources:
   slave0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:64647/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
+    jdbcUrl: jdbc:mysql://localhost:53985/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
     username: my_user
     password: my_password
     connectionTimeoutMilliseconds: 30000
@@ -27,7 +27,7 @@ dataSources:
   slave1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:64648/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
+    jdbcUrl: jdbc:mysql://localhost:53983/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
     username: my_user
     password: my_password
     connectionTimeoutMilliseconds: 30000
@@ -90,6 +90,32 @@ rules:
     loadBalancers:
       readwrite-load-balancer:
         type: ROUND_ROBIN
+
+  - !MASK
+    tables:
+      reviews:
+        columns:
+          invoice_code:
+            maskAlgorithm: md5_mask
+          author_email:
+            maskAlgorithm: mask_before_special_chars_mask
+          author_telephone:
+            maskAlgorithm: keep_first_n_last_m_mask
+
+    maskAlgorithms:
+      md5_mask:
+        type: MD5
+      mask_before_special_chars_mask:
+        type: MASK_BEFORE_SPECIAL_CHARS
+        props:
+          special-chars: '@'
+          replace-char: '*'
+      keep_first_n_last_m_mask:
+        type: KEEP_FIRST_N_LAST_M
+        props:
+          first-n: 3
+          last-m: 2
+          replace-char: '*'
 props:
   proxy-hint-enabled: true
   sql-show: true
