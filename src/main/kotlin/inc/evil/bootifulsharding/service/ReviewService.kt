@@ -11,17 +11,27 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
-@Transactional
 class ReviewService(val reviewRepository: ReviewRepository) {
 
     companion object {
         private val log: Logger = LoggerFactory.getLogger(this::class.java)
     }
-    @Transactional(readOnly = true)
     fun findAll(): List<Review> {
         return reviewRepository.findAll()
     }
-    @Transactional(readOnly = true)
+
+    fun findAllByAuthor(author: String): List<Review> {
+        return reviewRepository.findAllByAuthor(author)
+    }
+
+    fun findAllByCourseId(courseId: Int): List<Review> {
+        return reviewRepository.findAllByCourseId(courseId)
+    }
+
+    fun findAllByCreatedAt(date: LocalDate): List<Review> {
+        return reviewRepository.findAllByCreatedAt(date)
+    }
+
     fun findById(id: Int): Review {
         return reviewRepository.findById(id).orElseThrow { NotFoundException(Review::class, "id", id.toString()) }
     }
@@ -31,8 +41,6 @@ class ReviewService(val reviewRepository: ReviewRepository) {
     }
 
     fun deleteById(id: Int) = reviewRepository.deleteById(id)
-    @Transactional(readOnly = true)
-    fun findAllByCreatedAt(date: LocalDate): List<Review> {
-        return reviewRepository.findAllByCreatedAt(date)
-    }
+
+
 }

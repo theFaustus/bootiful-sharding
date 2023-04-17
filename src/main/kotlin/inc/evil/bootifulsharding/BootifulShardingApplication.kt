@@ -22,37 +22,7 @@ import kotlin.streams.toList
 @SpringBootApplication
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan
-class BootifulShardingApplication {
-    companion object {
-        private val log: Logger = LoggerFactory.getLogger(this::class.java)
-    }
-
-    @Bean
-    fun init(reviewService: ReviewService, reviewRepository: ReviewRepository) = CommandLineRunner {
-        run {
-            (0..10).forEach { i ->
-                val current = ThreadLocalRandom.current()
-                reviewService.save(
-                    Review(
-                        text = "Review number $i",
-                        author = "Mike Scott",
-                        authorEmail = "mike.scott${current.nextInt(1, 1000)}@mail.com",
-                        authorTelephone = current.nextInt(69445899, 69999999).toString(),
-                        invoiceCode = UUID.randomUUID().toString(),
-                        courseId = i
-                    )
-                )
-            }
-            (1..10).forEach { i ->
-                log.info(reviewService.findById(i).toString())
-                reviewRepository.findAllByAuthor("Mike $i")
-                reviewRepository.findAllByCourseId(i)
-                reviewRepository.findAllById(listOf(1, 1000))
-            }
-
-        }
-    }
-}
+class BootifulShardingApplication
 
 fun main(args: Array<String>) {
     runApplication<BootifulShardingApplication>(*args)
