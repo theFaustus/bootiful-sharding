@@ -2,13 +2,13 @@
 GET http://localhost:8070/api/v1/reviews/
 
 ### GET reviews by author
-GET http://localhost:8070/api/v1/reviews/author/mike
+GET http://localhost:8070/api/v1/reviews/filter?author=mike
 
 ### GET reviews by course ID
-GET http://localhost:8070/api/v1/reviews/course/123
+GET http://localhost:8070/api/v1/reviews/filter?courseId=123
 
 ### GET reviews by creation date
-GET http://localhost:8070/api/v1/reviews/created-at/{date}
+GET http://localhost:8070/api/v1/reviews/filter?date={date}
 
 ### GET review by ID
 GET http://localhost:8070/api/v1/reviews/34

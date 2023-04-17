@@ -15,7 +15,7 @@ dataSources:
   slave0:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:64836/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
+    jdbcUrl: jdbc:mysql://localhost:49922/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
     username: my_user
     password: my_password
     connectionTimeoutMilliseconds: 30000
@@ -27,7 +27,7 @@ dataSources:
   slave1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: com.mysql.jdbc.Driver
-    jdbcUrl: jdbc:mysql://localhost:64835/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
+    jdbcUrl: jdbc:mysql://localhost:49923/reviews-db?allowPublicKeyRetrieval=true&useSSL=false
     username: my_user
     password: my_password
     connectionTimeoutMilliseconds: 30000

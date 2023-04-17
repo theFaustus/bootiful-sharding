@@ -11,26 +11,26 @@ import java.time.LocalDate
 @RequestMapping("/api/v1/reviews")
 class ReviewController(val reviewService: ReviewService) {
 
-    @GetMapping("/")
+    @GetMapping
     fun getAllReviews(): ResponseEntity<List<Review>> {
         val reviews = reviewService.findAll()
         return ResponseEntity.ok(reviews)
     }
 
-    @GetMapping("/author/{author}")
-    fun getReviewsByAuthor(@PathVariable("author") author: String): ResponseEntity<List<Review>> {
+    @GetMapping("/filter", params = ["author"])
+    fun getReviewsByAuthor(@RequestParam("author") author: String): ResponseEntity<List<Review>> {
         val reviews = reviewService.findAllByAuthor(author)
         return ResponseEntity.ok(reviews)
     }
 
-    @GetMapping("/course/{courseId}")
-    fun getReviewsByCourseId(@PathVariable("courseId") courseId: Int): ResponseEntity<List<Review>> {
+    @GetMapping("/filter", params = ["courseId"])
+    fun getReviewsByCourseId(@RequestParam("courseId") courseId: Int): ResponseEntity<List<Review>> {
         val reviews = reviewService.findAllByCourseId(courseId)
         return ResponseEntity.ok(reviews)
     }
 
-    @GetMapping("/created-at/{date}")
-    fun getReviewsByCreatedAt(@PathVariable("date") date: LocalDate): ResponseEntity<List<Review>> {
+    @GetMapping("/filter", params = ["date"])
+    fun getReviewsByCreatedAt(@RequestParam("date") date: LocalDate): ResponseEntity<List<Review>> {
         val reviews = reviewService.findAllByCreatedAt(date)
         return ResponseEntity.ok(reviews)
     }
@@ -41,7 +41,7 @@ class ReviewController(val reviewService: ReviewService) {
         return ResponseEntity.ok(review)
     }
 
-    @PostMapping("/")
+    @PostMapping
     fun createReview(@RequestBody review: Review): ResponseEntity<Review> {
         val savedReview = reviewService.save(review)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedReview)

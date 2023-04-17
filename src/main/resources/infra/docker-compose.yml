@@ -33,6 +33,7 @@ services:
       - '3306:3306'
     volumes:
       - 'mysql_master_data:/bitnami/mysql/data'
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_REPLICATION_MODE=master
       - MYSQL_REPLICATION_USER=repl_user
