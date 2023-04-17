@@ -6,12 +6,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-    #        default_schema: reviews
     open-in-view: false
-    #    show-sql: true
-    #    properties:
-    #      hibernate:
-    #        format_sql: true
     hibernate:
       ddl-auto: none
   application:

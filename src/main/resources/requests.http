@@ -5,7 +5,7 @@ GET http://localhost:8070/api/v1/reviews/
 GET http://localhost:8070/api/v1/reviews/filter?author=mike
 
 ### GET reviews by course ID
-GET http://localhost:8070/api/v1/reviews/filter?courseId=123
+GET http://localhost:8070/api/v1/reviews/filter?courseId=124
 
 ### GET reviews by creation date
 GET http://localhost:8070/api/v1/reviews/filter?date={date}
@@ -18,12 +18,12 @@ POST http://localhost:8070/api/v1/reviews/
 Content-Type: application/json
 
 {
-  "text": "This is a great course!",
-  "author": "John Doe",
+  "text": "This is an amazing course!",
+  "author": "Mike Scott",
   "authorTelephone": "555-1234",
-  "authorEmail": "johndoe@example.com",
+  "authorEmail": "mikescott@example.com",
   "invoiceCode": "ABC123",
-  "courseId": 123
+  "courseId": 124
 }
 
 ### DELETE a review by ID

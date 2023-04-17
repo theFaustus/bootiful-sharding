@@ -62,21 +62,12 @@ rules:
           standard:
             shardingColumn: course_id
             shardingAlgorithmName: inline
-        keyGenerateStrategy:
-          column: course_id
-          keyGeneratorName: snowflake
     shardingAlgorithms:
       inline:
         type: INLINE
         props:
           algorithm-expression: reviews_$->{course_id % 2}
           allow-range-query-with-inline-sharding: true
-    keyGenerators:
-      snowflake:
-        type: SNOWFLAKE
-        props:
-          max-vibration-offset: 1
-          max-tolerate-time-difference-milliseconds: 10
 
   - !READWRITE_SPLITTING
     dataSources:
